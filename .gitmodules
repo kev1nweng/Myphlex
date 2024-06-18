@@ -1,0 +1,6 @@
+[submodule "myph"]
+	path = myph
+	url = https://github.com/kev1nweng/myph
+[submodule "lex"]
+	path = lex
+	url = https://github.com/kev1nweng/lex
