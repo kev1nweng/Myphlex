@@ -1,0 +1,30 @@
+name: Create a Release with Submodules
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Create an Archive with Submodules
+      run: |
+        mkdir temp_release
+        git archive --format=tar HEAD | (cd temp_release && tar xf -)
+        for submodule in $(git submodule | awk '{ print $2 }'); do
+          git -C $submodule archive --format=tar HEAD | (cd temp_release/$submodule && tar xf -)
+        done
+        tar -czvf release.tar.gz -C temp_release .
+
+    - name: Upload Release Asset
+      uses: actions/upload-artifact@v2
+      with:
+        name: release
+        path: release.tar.gz
