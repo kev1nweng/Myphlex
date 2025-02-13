@@ -1,1 +1,4 @@
 *.code-workspace
+.idea
+.vscode
+.VSCodeCounter
